@@ -26,10 +26,17 @@
                 </li>
 
             </ul>
-            {{-- <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form> --}}
+
+            <form action="{{ Auth::check() ? route('logout') : route('login') }}"
+                method="{{ Auth::check() ? 'POST' : 'GET' }}">
+                @if (Auth::check())
+                    @csrf
+                    <button class="btn btn-danger" type="submit">Log Out</button>
+                @else
+                    <button class="btn btn-success" type="submit">Log in</button>
+                @endif
+            </form>
+
         </div>
     </div>
 </nav>

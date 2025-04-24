@@ -37,13 +37,6 @@
         </div>
 
         <div class="mb-3">
-            <label for="user-select" class="form-label @error('user_id') is-invalid @enderror">User: </label> <br />
-            <select name="user_id" id="user-select">
-                @foreach ($users as $user)
-                    <option value={{ $user->id }} {{ old('user_id', $post->user_id) === $user->id ? 'selected' : '' }}>
-                        {{ $user->name }}</option>
-                @endforeach
-            </select>
             @error('user_id')
                 <div class="invalid-feedback">{{ $message }} </div>
             @enderror

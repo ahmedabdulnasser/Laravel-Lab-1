@@ -1,31 +1,22 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
 
 Route::get('/', function () {
     return view('home');
 })->name('home');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+Route::middleware('auth')->group(function () {
 
-Route::prefix('posts')->group(function () {
-    Route::get('/create', [PostController::class, 'create'])->name('posts.create');
-    Route::get('/show/{id}', [PostController::class, 'show'])->name('posts.show')->where('id', '[0-9]+');
-    Route::get('/edit/{id}', [PostController::class, 'edit'])->name('posts.edit')->where('id', '[0-9]+');
-
-    Route::post('/store', [PostController::class, 'store'])->name('posts.store');
-    Route::put('/update/{id}', [PostController::class, 'update'])->name('posts.update')->where('id', '[0-9]+');
-    Route::delete('/delete/{id}', [PostController::class, 'destroy'])->name('posts.delete')->where('id', '[0-9]+');
+    Route::resource('posts', PostController::class);
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/csrf-token', function () {
-    return csrf_token();
-});
-
-Route::fallback(function () {
-    return response()->view('404', [], 404);
-})->name('fallback');
-
-
+require __DIR__ . '/auth.php';

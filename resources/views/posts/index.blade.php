@@ -8,8 +8,8 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+    <p>My Post Count: {{ $userNoPosts }}</p>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
-
         @foreach ($posts as $post)
             @if (!$post->deleted_at)
                 <div class="col">
@@ -26,13 +26,19 @@
                             <p class="card-text">Last Update: {{ $post->updated_at }}</p>
 
                             <div class="d-flex justify-content-between mt-auto">
-                                <button onclick="window.location.href= '{{ route('posts.edit', $post->id) }}' "
-                                    class="btn btn-primary btn-sm">Edit Post</button>
-                                <form method="POST" action="{{ route('posts.delete', $post->id) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </form>
+                                @can('update', $post)
+                                    <button onclick="window.location.href= '{{ route('posts.edit', $post->id) }}' "
+                                        class="btn btn-primary btn-sm">Edit Post</button>
+                                @endcan
+
+                                @can('delete', $post)
+                                    <form method="POST" action="{{ route('posts.destroy', $post->id) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                @endcan
+
                             </div>
                         </div>
                     </div>
