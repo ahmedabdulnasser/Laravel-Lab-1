@@ -2,7 +2,11 @@
 
 @section('title', 'Show: Lab 1 & 2')
 @section('content')
-    <h2>Showing {{ $id }}</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi in expedita dicta culpa sint magni esse enim cum nihil
-        est natus quaerat, soluta reiciendis minima at maiores! Eos, harum architecto!</p>
+    <h5 class="card-title">${{ $post->title }}</h5>
+    <p class="card-text">{{ $post->body }}</p>
+    <p class="card-text">Enabled: {{ $post->enabled ? 'Yes' : 'No' }}</p>
+    <p class="card-text">Post Date: {{ $post->created_at }}</p>
+    <p class="card-text">Last Update: {{ $post->updated_at }}</p>
+
+
 @endsection
